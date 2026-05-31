@@ -1,0 +1,8 @@
+Flask
+numpy
+scikit-learn
+joblib
+reportlab
+pypdf
+google-genai
+psycopg2-binary==2.9.10; sys_platform != 'win32'

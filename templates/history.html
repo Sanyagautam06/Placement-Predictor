@@ -1,0 +1,30 @@
+<div>
+  <h2 class="text-2xl font-serif font-bold text-stone-950">Dossier Predictions Ledger Archive</h2>
+  <p class="text-stone-500 text-sm">Review standard historical dockets executed inside sqlite registries.</p>
+</div>
+
+<div class="bg-white border border-stone-300 rounded-xl overflow-hidden shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-sm font-sans border-collapse">
+      <thead>
+        <tr class="bg-stone-50 border-b border-stone-300 text-[11px] font-mono text-stone-500 uppercase">
+          <th class="p-4">Dossier ID</th>
+          <th class="p-4">Candidate Name</th>
+          <th class="p-4">Discipline / Branch</th>
+          <th class="p-4">Scholastic CGPA</th>
+          <th class="p-4 text-center">Readiness Score</th>
+          <th class="p-4 text-center">Placing Pot.</th>
+          <th class="p-4">Timestamp</th>
+          <th class="p-4 text-right">Actions Core</th>
+        </tr>
+      </thead>
+      <tbody id="history-rows">
+        <!-- Populated via JavaScript dynamically -->
+      </tbody>
+    </table>
+  </div>
+  <div id="history-empty" style="display: none;" class="py-16 text-center text-stone-400">
+    <i data-lucide="database-backup" class="h-10 w-10 mx-auto text-stone-300 mb-3"></i>
+    <p class="text-sm font-serif">No student dossiers saved yet. Perform predicting calculations first.</p>
+  </div>
+</div>

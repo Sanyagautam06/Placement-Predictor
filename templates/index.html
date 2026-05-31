@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Placement Intelligence Platform | AI Career Analytics</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              maroon: {
+                50: '#FDEDEE',
+                100: '#FAD6D6',
+                200: '#F4AEAE',
+                600: '#AD2D2D',
+                705: '#8C2424', // text branding
+                800: '#7A1F1F',
+                850: '#6E1C1C',
+                900: '#5C1717',
+                950: '#3D0F0F',
+              },
+              cream: {
+                50: '#FFFDFB',
+                100: '#FFFBF5',
+                200: '#FFF5E6',
+                300: '#FFECD1',
+              }
+            },
+            fontFamily: {
+              serif: ['Merriweather', 'Georgia', 'Cambria', 'serif'],
+              sans: ['"Source Sans Pro"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"Courier New"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body class="relative min-h-screen bg-[#FFF8F0] text-stone-850 font-sans selection:bg-maroon-600/20 selection:text-maroon-900 overflow-x-hidden">
+    
+    <!-- Subtle academic background watermarks -->
+    <div class="absolute top-0 right-0 -z-10 h-[40vw] w-[40vw] rounded-full bg-maroon-800/3 blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-[80vh] left-0 -z-10 h-[400px] w-[400px] rounded-full bg-amber-600/3 blur-[140px] pointer-events-none"></div>
+
+    <!-- 1. NAVIGATION HEADER -->
+    <header id="top-header" class="sticky top-0 z-50 w-full border-b border-stone-200 bg-[#FFF8F0]/90 backdrop-blur-md">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-18 py-3">
+        
+        <!-- Logo Brand -->
+        <div onclick="showPage('home')" class="flex cursor-pointer items-center gap-2.5 transition-opacity hover:opacity-90">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-maroon-800 shadow-sm shadow-maroon-900/10 text-white">
+            <i data-lucide="brain" class="h-6 w-6"></i>
+          </div>
+          <div>
+            <span class="text-lg font-serif font-bold tracking-tight text-stone-900">
+              Placement<span class="text-maroon-700 font-extrabold ml-0.5">Intelligence</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <span class="text-[9px] font-mono tracking-wider text-stone-500 uppercase">CAREER MATRICES EVALUATOR</span>
+              <span class="flex h-1.5 w-1.5 rounded-full bg-maroon-600 animate-pulse"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Items -->
+        <nav class="hidden md:flex items-center gap-6">
+          <button onclick="showPage('home')" class="text-xs font-bold uppercase tracking-wider text-stone-700 hover:text-maroon-800 transition-all cursor-pointer">
+            Assessment Form
+          </button>
+          <button onclick="showPage('history')" class="text-xs font-bold uppercase tracking-wider text-stone-700 hover:text-maroon-800 transition-all cursor-pointer">
+            Prediction History
+          </button>
+          <button onclick="showPage('leaderboard')" class="text-xs font-bold uppercase tracking-wider text-stone-700 hover:text-maroon-800 transition-all cursor-pointer">
+            Top Scores
+          </button>
+
+        </nav>
+
+        <!-- Actions -->
+        <div class="hidden md:flex items-center gap-3">
+          <button onclick="scrollToId('prediction-form-card')" class="relative inline-flex items-center gap-1.5 rounded-lg bg-maroon-800 px-5 py-2.5 text-xs font-bold font-serif text-[#FFFDFB] shadow hover:bg-maroon-900 active:scale-95 transition-all cursor-pointer border border-maroon-900">
+            <span>Evaluate Readiness</span>
+            <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Mobile burger toggle -->
+        <div class="flex md:hidden items-center gap-3">
+          <button onclick="showPage('home'); scrollToId('prediction-form-card')" class="relative flex h-8 items-center rounded bg-maroon-800 px-3 text-xs font-bold text-white cursor-pointer">
+            Evaluate
+          </button>
+          <button onclick="toggleMobileMenu()" class="rounded p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer">
+            <i id="mobile-menu-icon" data-lucide="menu" class="h-5.5 w-5.5"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile drawer dropdown -->
+      <div id="mobile-menu-drawer" class="hidden border-t border-stone-200 bg-[#FFFDFB] overflow-hidden md:hidden animate-fade-in">
+        <div class="space-y-1 px-4 pt-3 pb-6">
+          <button onclick="showPage('home'); toggleMobileMenu()" class="flex w-full items-center px-3 py-2 rounded text-stone-700 hover:text-maroon-800 hover:bg-stone-50 font-bold text-xs uppercase tracking-wider text-left transition-colors">
+            Assessment Form
+          </button>
+          <button onclick="showPage('history'); toggleMobileMenu()" class="flex w-full items-center px-3 py-2 rounded text-stone-700 hover:text-maroon-800 hover:bg-stone-50 font-bold text-xs uppercase tracking-wider text-left transition-colors">
+            Prediction History
+          </button>
+          <button onclick="showPage('leaderboard'); toggleMobileMenu()" class="flex w-full items-center px-3 py-2 rounded text-stone-700 hover:text-maroon-800 hover:bg-stone-50 font-bold text-xs uppercase tracking-wider text-left transition-colors">
+            Top Scores
+          </button>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Toast Notification banner -->
+    <div id="toast-notification" style="display: none;" class="fixed top-22 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-xl border border-maroon-100 bg-[#FFFDFB] px-5 py-3.5 shadow-md shadow-maroon-950/5 animate-fade-in">
+      <i data-lucide="check-circle" class="h-4.5 w-4.5 text-maroon-750"></i>
+      <span id="toast-text" class="text-xs font-serif font-bold text-stone-900">Successfully loaded</span>
+    </div>
+
+    <!-- MAIN SCROLL CONTAINERS -->
+    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      
+      <!-- PAGE A: COCKPIT (HOME) -->
+      <div id="page-home" class="block space-y-12">
+        
+        <!-- Hero introductory title -->
+        <section class="text-center max-w-3xl mx-auto space-y-6 pt-6">
+          <div class="inline-flex items-center gap-2 rounded border border-maroon-200/50 bg-[#FFFDFB] px-3.5 py-1.5 text-xs font-semibold text-maroon-800 backdrop-blur-md shadow-sm">
+            <i data-lucide="graduation-cap" class="h-4 w-4 text-maroon-800"></i>
+            <span class="font-serif tracking-wide text-[11px] uppercase">Placement readiness & predictive intelligence</span>
+          </div>
+          <h1 class="text-4xl font-serif font-bold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl/tight">
+            Analyze Student Career <span class="text-maroon-800 block sm:inline font-bold">Placement Intelligence</span> with AI
+          </h1>
+          <p class="text-stone-650 text-base leading-relaxed font-sans max-w-2xl mx-auto">
+            Evaluate multidimensional profiles including academic results, dynamic skill tags, work experience, open-source achievements, coding ratings, soft skills metrics, and PDF resume processing.
+          </p>
+        </section>
+
+        <!-- Dynamic multi-step form card -->
+        <section id="prediction-form-card" class="mx-auto max-w-3xl my-6">
+          <div class="relative rounded-2xl border border-stone-300 bg-[#FFFDFB] p-6 sm:p-10 shadow-lg shadow-stone-800/5 min-h-[500px] flex flex-col justify-between overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-maroon-800"></div>
+
+            <!-- Header Stepper metrics -->
+            <div class="mb-8 block border-b border-stone-200 pb-4">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div class="text-xs font-mono font-bold text-stone-500 uppercase tracking-wider">
+                  PROGRESS TRACKER: STEP <span id="current-step-display" class="text-maroon-800 font-bold text-sm">1</span> OF 9
+                </div>
+                <div id="current-step-title" class="text-xs font-serif font-bold text-maroon-900 bg-maroon-50 border border-maroon-100 rounded px-2.5 py-1 uppercase tracking-wide">
+                  PERSONAL DETAILS
+                </div>
+              </div>
+              <div class="w-full bg-stone-150 h-2 mt-4 rounded-full overflow-hidden">
+                <div id="step-progress-indicator" class="bg-maroon-800 h-full transition-all duration-300" style="width: 11.11%"></div>
+              </div>
+            </div>
+
+            <!-- Standard Stepper Form content -->
+            <div id="prediction-form-wrapper" class="flex-1 flex flex-col justify-between">
+              
+              <div id="step-fields-container" class="space-y-6 flex-1">
+                
+                <!-- STEP 1: Personal details -->
+                <div id="step-1-fields" class="block space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Demographics & Student Coordinate details</h3>
+                    <p class="text-stone-500 text-xs">Enter demographic metrics designed for university career registries.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div>
+                      <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Full Reference Name</label>
+                      <input id="input-name" type="text" oninput="updateProfileField('name', this.value)" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800 transition-all" placeholder="E.g. Sneha Patel" />
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Age (Years)</label>
+                        <input id="input-age" type="number" min="17" max="45" oninput="updateProfileField('age', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Gender Group</label>
+                        <select id="input-gender" onchange="updateProfileField('gender', this.value)" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800">
+                          <option value="Female">Female</option>
+                          <option value="Male">Male</option>
+                          <option value="Non-Binary">Non-Binary</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Department / Specialization</label>
+                        <select id="input-department" onchange="updateProfileField('department', this.value)" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800">
+                          <option value="Computer Science Engineering">Computer Science Engineering</option>
+                          <option value="Electrical Engineering">Electrical Engineering</option>
+                          <option value="Information Technology">Information Technology</option>
+                          <option value="Electronics & Communication">Electronics & Communication</option>
+                          <option value="Mechanical Engineering">Mechanical Engineering</option>
+                          <option value="Data Science & ML">Data Science & ML</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Graduation Year</label>
+                        <input id="input-grad-year" type="number" min="2020" max="2032" value="2027" oninput="updateProfileField('graduation_year', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 2: Academic Profile -->
+                <div id="step-2-fields" class="hidden space-y-4 animate-fade-in fire-animation">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Academic Standing Indices</h3>
+                    <p class="text-stone-500 text-xs">Specify scholastic filters which govern baseline company eligibility matrices.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div>
+                      <div class="flex items-center justify-between mb-1">
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">Cumulative CGPA (10.0 Scale)</label>
+                        <span id="cgpa-display-val" class="text-maroon-800 font-serif font-bold text-lg">8.20</span>
+                      </div>
+                      <input id="input-cgpa" type="range" min="4.0" max="10.0" step="0.05" oninput="updateProfileField('cgpa', Number(this.value)); document.getElementById('cgpa-display-val').innerText = Number(this.value).toFixed(2);" class="w-full h-2 bg-stone-200 rounded appearance-none cursor-pointer accent-maroon-800" />
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Current Backlogs</label>
+                        <input id="input-backlogs" type="number" min="0" max="12" value="0" oninput="updateProfileField('backlogs', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Certifications Count</label>
+                        <input id="input-certifications" type="number" min="0" max="20" value="2" oninput="updateProfileField('certifications', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Research Papers (Optional)</label>
+                        <input id="input-research" type="number" min="0" max="10" value="0" oninput="updateProfileField('research_papers', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 3: Experience -->
+                <div id="step-3-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Professional Engineering Experiences</h3>
+                    <p class="text-stone-500 text-xs">Record structured work, internships, and dynamic freelancing contracts.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Internship Count</label>
+                        <input id="input-internships" type="number" min="0" max="10" value="1" oninput="updateProfileField('internships', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Cumulative Duration (Months)</label>
+                        <input id="input-internship-duration" type="number" min="0" max="48" value="3" oninput="updateProfileField('internship_duration_months', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Freelancing Experience</label>
+                        <select id="input-freelance" onchange="updateProfileField('freelance_experience', this.value === 'Yes')" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800">
+                          <option value="No">No, none recorded</option>
+                          <option value="Yes">Yes, custom contracts and client work</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Prior Corporate Work Exp (Months)</label>
+                        <input id="input-work-exp" type="number" min="0" max="120" value="0" oninput="updateProfileField('work_experience_months', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 4: Projects -->
+                <div id="step-4-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Project Development Portfolio</h3>
+                    <p class="text-stone-500 text-xs">Scholarly software architectures validate real programming competencies.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Number of Projects</label>
+                        <input id="input-projects-count" type="number" min="0" max="25" value="3" oninput="updateProfileField('projects_count', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Primary Project Difficulty</label>
+                        <select id="input-projects-difficulty" onchange="updateProfileField('projects_difficulty', this.value)" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800">
+                          <option value="Beginner">Beginner Portfolio</option>
+                          <option value="Intermediate" selected>Intermediate Systems</option>
+                          <option value="Advanced">Advanced / Production Scaled</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Primary Engineering Domain</label>
+                        <select id="input-projects-domain" onchange="updateProfileField('projects_domain', this.value)" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800">
+                          <option value="Web Development" selected>Web Development</option>
+                          <option value="Machine Learning">Machine Learning</option>
+                          <option value="Mobile Development">Mobile Development</option>
+                          <option value="Cloud Systems">Cloud Systems</option>
+                          <option value="Data Science">Data Science</option>
+                          <option value="Cybersecurity">Cybersecurity</option>
+                          <option value="Other Domains">Other Domains</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 5: Technical Skills -->
+                <div id="step-5-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Dynamic Programmatic Skills Tags</h3>
+                    <p class="text-stone-500 text-xs">Define verified skills. Click tags to toggle, or input native custom tools below.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <!-- Standard tags quick-selector container -->
+                    <div>
+                      <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider font-mono mb-2">QUICK PRESS POPULAR TAGS</label>
+                      <div id="popular-skills-container" class="flex flex-wrap gap-1.5">
+                        <!-- Instantly written in standard loader scripts -->
+                      </div>
+                    </div>
+
+                    <!-- Custom Skill Adder inputs -->
+                    <div class="pt-2">
+                      <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Add Custom Specialized Skill</label>
+                      <div class="flex gap-2">
+                        <input id="custom-skill-input" type="text" class="flex-1 bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" placeholder="E.g. Kubernetes, PyTorch, Golang" />
+                        <button type="button" onclick="addCustomSkillTag()" class="bg-stone-800 hover:bg-black text-[#FFFDFB] px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all">Add</button>
+                      </div>
+                    </div>
+
+                    <!-- Selected skills render tray -->
+                    <div class="pt-4 border-t border-stone-150">
+                      <span class="block text-[10px] font-mono tracking-wider font-bold text-stone-500 uppercase mb-2">ACTIVE REGISTERED PROFILE SKILLS (<span id="skills-count-badge">0</span> selected)</span>
+                      <div id="selected-skills-tray" class="flex flex-wrap gap-1.5 min-h-[36px] bg-stone-50 p-3 rounded-lg border border-stone-200">
+                        <!-- Dynamic active render tags with close buttons -->
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- STEP 6: Coding Profiles -->
+                <div id="step-6-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Computer Programming Ratings</h3>
+                    <p class="text-stone-500 text-xs">Official rating coordinates across competitive algorithmic frameworks.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">LeetCode Rating</label>
+                        <input id="input-leetcode" type="number" min="800" max="3500" value="1420" oninput="updateProfileField('leetcode_rating', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">CodeChef Rating</label>
+                        <input id="input-codechef" type="number" min="800" max="3200" value="1500" oninput="updateProfileField('codechef_rating', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Codeforces Rating</label>
+                        <input id="input-codeforces" type="number" min="800" max="3800" value="1300" oninput="updateProfileField('codeforces_rating', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 7: Achievements -->
+                <div id="step-7-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Achievements & Social Engineering</h3>
+                    <p class="text-stone-500 text-xs">Verify open-source capabilities, public indices, and hackathons records.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Hackathons Participated</label>
+                        <input id="input-hack-part" type="number" min="0" max="30" value="2" oninput="updateProfileField('hackathons_participated', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Hackathons Won</label>
+                        <input id="input-hack-won" type="number" min="0" max="20" value="0" oninput="updateProfileField('hackathons_won', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">Open Source Contributions Count</label>
+                      <input id="input-os-contribs" type="number" min="0" max="500" value="0" oninput="updateProfileField('open_source_contributions', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" placeholder="GitHub pull requests merged into public repo dockets..." />
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">GitHub Public Repositories</label>
+                        <input id="input-git-repos" type="number" min="0" max="150" value="12" oninput="updateProfileField('github_repos', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-mono">GitHub Commits / Year</label>
+                        <input id="input-git-contribs" type="number" min="0" max="5000" value="85" oninput="updateProfileField('github_contributions', Number(this.value))" class="w-full bg-[#FFFDFB] border border-stone-300 rounded-lg px-4 py-2.5 text-stone-900 text-sm focus:outline-none focus:ring-1 focus:ring-maroon-800" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 8: Soft Skills -->
+                <div id="step-8-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">Executive Peer & Soft Skills</h3>
+                    <p class="text-stone-500 text-xs">Aptitude levels certified during administrative interview cycles [Scale 1 - 10].</p>
+                  </div>
+                  <div class="space-y-4">
+                    <!-- Communication -->
+                    <div>
+                      <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">Rhetoric & Communication Style</label>
+                        <span id="comm-val-lbl" class="text-xs font-mono font-bold text-maroon-850">4 / 10</span>
+                      </div>
+                      <input id="input-soft-comm" type="range" min="1" max="10" step="1" value="4" oninput="updateProfileField('soft_communication', Number(this.value)); document.getElementById('comm-val-lbl').innerText = this.value + ' / 10';" class="w-full h-1.5 bg-stone-200 rounded appearance-none cursor-pointer accent-maroon-800" />
+                    </div>
+                    <!-- Problem Solving -->
+                    <div>
+                      <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">Diagnostic Problem Solving</label>
+                        <span id="prob-val-lbl" class="text-xs font-mono font-bold text-maroon-850">4 / 10</span>
+                      </div>
+                      <input id="input-soft-prob" type="range" min="1" max="10" step="1" value="4" oninput="updateProfileField('soft_problem_solving', Number(this.value)); document.getElementById('prob-val-lbl').innerText = this.value + ' / 10';" class="w-full h-1.5 bg-stone-200 rounded appearance-none cursor-pointer accent-maroon-800" />
+                    </div>
+                    <!-- Teamwork -->
+                    <div>
+                      <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">Synergy & Teamwork Aptitude</label>
+                        <span id="team-val-lbl" class="text-xs font-mono font-bold text-maroon-850">4 / 10</span>
+                      </div>
+                      <input id="input-soft-team" type="range" min="1" max="10" step="1" value="4" oninput="updateProfileField('soft_teamwork', Number(this.value)); document.getElementById('team-val-lbl').innerText = this.value + ' / 10';" class="w-full h-1.5 bg-stone-200 rounded appearance-none cursor-pointer accent-maroon-800" />
+                    </div>
+                    <!-- Leadership -->
+                    <div>
+                      <div class="flex justify-between items-center mb-1">
+                        <label class="block text-[11px] font-bold text-stone-700 uppercase tracking-wider font-mono">Administrative Leadership Potential</label>
+                        <span id="lead-val-lbl" class="text-xs font-mono font-bold text-maroon-850">3 / 10</span>
+                      </div>
+                      <input id="input-soft-lead" type="range" min="1" max="10" step="1" value="3" oninput="updateProfileField('soft_leadership', Number(this.value)); document.getElementById('lead-val-lbl').innerText = this.value + ' / 10';" class="w-full h-1.5 bg-stone-200 rounded appearance-none cursor-pointer accent-maroon-800" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- STEP 9: Resume Upload & Completeness -->
+                <div id="step-9-fields" class="hidden space-y-4 animate-fade-in">
+                  <div class="border-b border-stone-100 pb-2 mb-4">
+                    <h3 class="text-lg font-serif font-bold text-stone-900">PDF Portfolio Resume Intelligence</h3>
+                    <p class="text-stone-500 text-xs">Instantly scan, verify, and auto-parse skills, certifications, and project counts from your PDF resume file.</p>
+                  </div>
+                  
+                  <div class="space-y-4">
+                    <!-- Standard drag-and-drop or select file box wrapper -->
+                    <div id="drop-zone" class="border-2 border-dashed border-stone-300 hover:border-maroon-800 rounded-xl p-8 bg-stone-50 hover:bg-[#FFFDFB] transition-all cursor-pointer flex flex-col items-center justify-center text-center space-y-3 relative group">
+                      <input id="resume-file-input" type="file" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileSelect(event)" />
+                      
+                      <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-maroon-50 text-maroon-800 transition-transform group-hover:scale-105">
+                        <i data-lucide="file-text" class="h-6 w-6"></i>
+                      </div>
+                      
+                      <div>
+                        <span class="text-sm font-bold text-stone-850 block font-serif">Drag & drop your Resume PDF file here</span>
+                        <span class="text-xs text-stone-500 block leading-normal mt-0.5">Or tap anywhere inside the box to browse locally. No size limit.</span>
+                      </div>
+                      
+                      <div class="text-[9.5px] font-mono tracking-wider font-bold text-maroon-800 bg-maroon-50 border border-maroon-150 rounded px-2.5 py-1">
+                        SECURE SANDBOXED PDF PARSER ACTIVE
+                      </div>
+                    </div>
+
+                    <!-- PDF parsing progress spinner/status -->
+                    <div id="pdf-parsed-indicator" style="display: none;" class="flex items-center gap-2 text-stone-700 bg-green-50 border border-green-200 rounded-lg p-3 justify-center">
+                      <i data-lucide="check" class="h-4 w-4 text-green-700"></i>
+                      <span class="text-xs font-mono text-green-800 font-bold" id="pdf-parsed-text">Resume scanned. Fields populated successfully.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Stepper action buttons control bar -->
+              <div class="mt-10 pt-5 border-t border-stone-250 flex items-center justify-between">
+                <button type="button" id="prev-step-btn" onclick="prevStep()" class="flex items-center gap-1 bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 font-bold px-4 py-2.5 rounded-lg text-xs font-serif shadow-sm active:scale-95 transition-all cursor-pointer">
+                  <i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>
+                  <span>Previous step</span>
+                </button>
+                
+                <button type="button" id="next-step-btn" onclick="nextStep()" class="flex items-center gap-1 bg-stone-900 border border-stone-950 hover:bg-black text-[#FFFDFB] font-bold px-5 py-2.5 rounded-lg text-xs font-serif shadow-sm active:scale-95 transition-all cursor-pointer">
+                  <span>Continue step</span>
+                  <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i>
+                </button>
+
+                <button type="button" id="submit-profile-btn" onclick="runPrediction()" class="hidden flex items-center gap-1 bg-maroon-800 hover:bg-maroon-900 text-[#FFFDFB] border border-maroon-900 font-bold px-6 py-2.5 rounded-lg text-xs font-serif shadow-sm active:scale-95 transition-all cursor-pointer">
+                  <span>Calculate Placement readiness</span>
+                  <i data-lucide="check-circle" class="h-3.5 w-3.5"></i>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Loader viewport layer -->
+            <div id="prediction-loading-wrapper" class="hidden flex-1 flex flex-col justify-center items-center py-16 space-y-4 text-center">
+              <svg class="animate-spin h-10 w-10 text-maroon-800" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <div>
+                <h4 class="text-sm font-bold text-stone-900 font-serif">Compiling credentials models matrices...</h4>
+                <p class="text-xs text-stone-500 mt-1 max-w-xs mx-auto">Evaluating matching thresholds using custom scikit-learn random forest algorithms.</p>
+              </div>
+            </div>
+
+            <!-- Error fallback card -->
+            <div id="prediction-error-wrapper" class="hidden flex-1 flex flex-col justify-center items-center py-12 space-y-4 text-center">
+              <div class="h-10 w-10 flex items-center justify-center rounded-full bg-red-50 text-red-700">
+                <i data-lucide="alert-triangle" class="h-6 w-6"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-stone-900 font-serif">Analytical Compile Error</h4>
+                <p class="text-xs text-stone-500 mt-1 max-w-sm mx-auto">Backend Flask predict routes failed to complete or process input weights. Verify skills array and submit again.</p>
+              </div>
+              <button onclick="resetAll()" class="bg-stone-100 hover:bg-stone-200 text-stone-700 px-4 py-2 rounded text-xs font-semibold">Return to Assessment Form</button>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Presets Simulated Profiles grid -->
+        <section class="space-y-6 pt-4 border-t border-stone-200">
+          <div class="text-center">
+            <span class="text-xs font-bold font-mono tracking-widest text-maroon-800 uppercase bg-maroon-50 border border-maroon-150 px-3.5 py-1.5 rounded">
+              Verified career cohort structures
+            </span>
+            <h2 class="text-2xl font-serif font-bold tracking-tight text-stone-900 sm:text-3xl mt-4">
+              Instantiate Pre-calibrated Demo Profiles
+            </h2>
+            <p class="text-stone-600 text-sm mt-2 max-w-md mx-auto">
+              Simulate candidate coordinates to immediately verify analytical outputs, strategic alignments, and ReportLab PDF documents.
+            </p>
+          </div>
+
+          <!-- Presets profiles deck grid (5 Candidates) -->
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-5">
+            
+            <!-- Preset 1: Product-Focused -->
+            <div id="profile-card-product" onclick="selectPreset('product')" class="border border-stone-200 hover:border-maroon-800 rounded bg-white p-4 cursor-pointer hover:shadow-md transition-all text-left">
+              <div class="flex items-center justify-between mb-3 border-b border-stone-100 pb-2">
+                <span class="text-[9px] font-mono font-bold text-stone-500">ENGINEER</span>
+                <span id="badge-p-product" class="text-[8.5px] font-mono uppercase font-bold text-[#AD2D2D]">ACTIVATE</span>
+              </div>
+              <h4 class="text-sm font-bold font-serif text-stone-900 leading-tight">Yash Vardhan</h4>
+              <p class="text-[10px] text-stone-500 mt-0.5">Product-Focused Engineer</p>
+              <div class="mt-4 pt-2 border-t border-stone-150 flex justify-between text-[10px] font-mono text-stone-600">
+                <span>GPA: 7.9</span>
+                <span>PROJS: 4</span>
+              </div>
+            </div>
+
+            <!-- Preset 2: Competitive Programmer -->
+            <div id="profile-card-competitive" onclick="selectPreset('competitive')" class="border border-stone-200 hover:border-maroon-800 rounded bg-white p-4 cursor-pointer hover:shadow-md transition-all text-left">
+              <div class="flex items-center justify-between mb-3 border-b border-stone-100 pb-2">
+                <span class="text-[9px] font-mono font-bold text-stone-500">ALGORITHMS</span>
+                <span id="badge-p-competitive" class="text-[8.5px] font-mono uppercase font-bold text-[#AD2D2D]">ACTIVATE</span>
+              </div>
+              <h4 class="text-sm font-bold font-serif text-stone-900 leading-tight">Arjun Iyer</h4>
+              <p class="text-[10px] text-stone-500 mt-0.5">Competitive Programmer</p>
+              <div class="mt-4 pt-2 border-t border-stone-150 flex justify-between text-[10px] font-mono text-stone-600">
+                <span>GPA: 8.6</span>
+                <span>RATING: 2150</span>
+              </div>
+            </div>
+
+            <!-- Preset 3: Full Stack Dev -->
+            <div id="profile-card-fullstack" onclick="selectPreset('fullstack')" class="border border-stone-200 hover:border-maroon-800 rounded bg-white p-4 cursor-pointer hover:shadow-md transition-all text-left">
+              <div class="flex items-center justify-between mb-3 border-b border-stone-100 pb-2">
+                <span class="text-[9px] font-mono font-bold text-stone-500">FULL STACK</span>
+                <span id="badge-p-fullstack" class="text-[8.5px] font-mono uppercase font-bold text-[#AD2D2D]">ACTIVATE</span>
+              </div>
+              <h4 class="text-sm font-bold font-serif text-stone-900 leading-tight">Riya Sen</h4>
+              <p class="text-[10px] text-stone-500 mt-0.5">Full Stack Developer</p>
+              <div class="mt-4 pt-2 border-t border-stone-150 flex justify-between text-[10px] font-mono text-stone-600">
+                <span>GPA: 8.1</span>
+                <span>INTERNS: 2</span>
+              </div>
+            </div>
+
+            <!-- Preset 4: Data Science Candidate -->
+            <div id="profile-card-datascience" onclick="selectPreset('datascience')" class="border border-stone-200 hover:border-maroon-800 rounded bg-white p-4 cursor-pointer hover:shadow-md transition-all text-left">
+              <div class="flex items-center justify-between mb-3 border-b border-stone-100 pb-2">
+                <span class="text-[9px] font-mono font-bold text-stone-500">DATA & AI</span>
+                <span id="badge-p-datascience" class="text-[8.5px] font-mono uppercase font-bold text-[#AD2D2D]">ACTIVATE</span>
+              </div>
+              <h4 class="text-sm font-bold font-serif text-stone-900 leading-tight">Dr. Amit Paul</h4>
+              <p class="text-[10px] text-stone-500 mt-0.5">Data Science Specialist</p>
+              <div class="mt-4 pt-2 border-t border-stone-150 flex justify-between text-[10px] font-mono text-stone-600">
+                <span>GPA: 9.6</span>
+                <span>PAPERS: 2</span>
+              </div>
+            </div>
+
+            <!-- Preset 5: Career Switcher -->
+            <div id="profile-card-switcher" onclick="selectPreset('switcher')" class="border border-stone-200 hover:border-maroon-800 rounded bg-white p-4 cursor-pointer hover:shadow-md transition-all text-left">
+              <div class="flex items-center justify-between mb-3 border-b border-stone-100 pb-2">
+                <span class="text-[9px] font-mono font-bold text-stone-500">TRANSITION</span>
+                <span id="badge-p-switcher" class="text-[8.5px] font-mono uppercase font-bold text-[#AD2D2D]">ACTIVATE</span>
+              </div>
+              <h4 class="text-sm font-bold font-serif text-stone-900 leading-tight">Karan Saxena</h4>
+              <p class="text-[10px] text-stone-500 mt-0.5">Career Switcher</p>
+              <div class="mt-4 pt-2 border-t border-stone-150 flex justify-between text-[10px] font-mono text-stone-600">
+                <span>AGE: 27</span>
+                <span>WORK EXP: 48m</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- PAGE B: RESULTS DASHBOARD (ACCESSIBLE VIA JS SUBMISSIONS) -->
+      <div id="page-results" class="hidden space-y-8 animate-fade-in">
+        
+        <!-- Top header action bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-stone-250 pb-4 gap-4">
+          <div>
+            <h2 class="text-2xl font-serif font-bold text-stone-950">Placement Readiness Intelligence Dashboard</h2>
+            <p id="result-meta-subtitle" class="text-stone-500 text-xs font-mono mt-0.5">DOSSIER REGISTRY</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="downloadReportPDF()" class="bg-maroon-800 hover:bg-maroon-900 text-white font-serif px-4 py-2 text-xs font-bold rounded-lg border border-maroon-950 flex items-center gap-1">
+              <i data-lucide="download" class="h-3.5 w-3.5"></i> Download PDF Report
+            </button>
+            <button onclick="showPage('home')" class="bg-white hover:bg-stone-50 text-stone-700 px-4 py-2 text-xs font-bold rounded-lg border border-stone-300">
+              New Evaluation
+            </button>
+          </div>
+        </div>
+
+        <!-- Upper summary grid layout: Circular gauge, comparison dials, matched roles -->
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
+          
+          <!-- Circular score gauge (4 column) -->
+          <div class="lg:col-span-4 rounded-xl border border-stone-300 bg-white p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute inset-1.5 border border-maroon-800/5 rounded pointer-events-none"></div>
+            
+            <div class="text-center relative z-10 py-2">
+              <span class="text-[10px] font-bold font-mono text-stone-400 block uppercase">Placement Probability Score</span>
+              
+              <!-- Responsive SVG Circular Gauge -->
+              <div class="relative mx-auto my-6 flex h-40 w-40 items-center justify-center">
+                <svg class="absolute inset-0 transform -rotate-90 w-full h-full">
+                  <circle cx="80" cy="80" r="68" stroke="#F5EFE6" stroke-width="6" fill="transparent"></circle>
+                  <circle id="results-svg-gauge" cx="80" cy="80" r="68" stroke-width="7" stroke-dasharray="427" stroke-dashoffset="100" stroke-linecap="round" fill="transparent" class="transition-all duration-1000 stroke-maroon-800"></circle>
+                </svg>
+                <div class="text-center">
+                  <span id="results-prob-value" class="text-4xl font-serif font-bold text-stone-900 tracking-tight">0%</span>
+                  <span class="text-[9px] font-mono block text-stone-400 mt-0.5">COMPUTED INDICES</span>
+                </div>
+              </div>
+
+              <!-- readiness metrics pills -->
+              <div class="space-y-4 pt-2">
+                <div class="flex justify-between items-center text-xs font-sans">
+                  <span class="text-stone-600 block">Placement Readiness:</span>
+                  <div id="results-readiness-badge" class="rounded px-2.5 py-0.5 font-bold uppercase font-mono text-[9px] text-[#AD2D2D] bg-[#FDEDEE] border border-[#FAD6D6]">
+                    --
+                  </div>
+                </div>
+                <div class="flex justify-between items-center text-xs font-sans">
+                  <span class="text-stone-600 block">Readiness Score:</span>
+                  <span id="results-score-value" class="font-serif font-bold text-stone-900 text-sm">-- / 100</span>
+                </div>
+                <div class="flex justify-between items-center text-xs font-sans">
+                  <span class="text-stone-600 block">Resume Score:</span>
+                  <span id="results-resume-score" class="font-mono font-bold text-stone-900 text-xs">-- / 100</span>
+                </div>
+                <div class="flex justify-between items-center text-xs font-sans border-t border-stone-100 pt-3">
+                  <span class="text-stone-600 block">Skill Alignment Score:</span>
+                  <span id="results-alignment-score" class="font-mono font-bold text-stone-900 text-xs">-- / 100</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Radar Competency Competencies (4 columns) -> Renders dynamic responsive SVG network -->
+          <div class="lg:col-span-4 rounded-xl border border-stone-300 bg-white p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute inset-1.5 border border-maroon-800/5 rounded pointer-events-none"></div>
+            <div>
+              <span class="text-[10px] font-bold font-mono text-stone-400 block uppercase mb-1">radar capabilities mapping</span>
+              <h4 class="text-sm font-serif font-bold text-stone-900 mb-4">Verification Weights Networks</h4>
+            </div>
+
+            <!-- Dynamic SVG Radar Chart container -->
+            <div class="flex items-center justify-center p-2 relative h-48 w-full" id="radar-chart-container">
+              <!-- Instantly populated by JavaScript loop drawing polygonal lines -->
+            </div>
+
+            <div class="grid grid-cols-3 gap-1 pt-4 text-center border-t border-stone-100 text-[9px] font-mono uppercase text-stone-500">
+              <div>Acad: <span id="radar-lbl-acad" class="font-bold text-stone-800 block text-[10px]">--</span></div>
+              <div>Tech: <span id="radar-lbl-tech" class="font-bold text-stone-800 block text-[10px]">--</span></div>
+              <div>Expr: <span id="radar-lbl-expr" class="font-bold text-stone-800 block text-[10px]">--</span></div>
+            </div>
+          </div>
+
+          <!-- Feature Importance Weights indicators & matches roles (4 columns) -->
+          <div class="lg:col-span-4 rounded-xl border border-stone-300 bg-white p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute inset-1.5 border border-maroon-800/5 rounded pointer-events-none"></div>
+            
+            <div class="space-y-4">
+              <div>
+                <span class="text-[10px] font-bold font-mono text-stone-400 block uppercase mb-1">matched occupation outlooks</span>
+                <div id="results-roles-container" class="flex flex-wrap gap-1.5 mt-2">
+                  <!-- Dynamically written tags -->
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-stone-100">
+                <span class="text-[10px] font-bold font-mono text-stone-400 block uppercase mb-3">features importance models matches</span>
+                <div class="space-y-3" id="results-importance-bars">
+                  <!-- Bar elements written in main.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Lower Section split: Skill Gap Analysis vs AI Personalized Recommendations -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
+          
+          <!-- Skill Gap Column (5 columns) -->
+          <div class="md:col-span-5 rounded-xl border border-stone-300 bg-white p-6 shadow-sm space-y-6">
+            <div>
+              <span class="text-[10px] font-mono tracking-wider font-bold text-stone-500 block">Competency Analysis Grid</span>
+              <h3 class="text-lg font-serif font-bold text-stone-900 mt-0.5">Skill Gap Analysis</h3>
+            </div>
+
+            <!-- Strong areas -->
+            <div class="space-y-3">
+              <span class="text-[10.5px] font-mono tracking-wider font-bold text-emerald-800 block uppercase bg-emerald-50 border border-emerald-150 px-2.5 py-1 rounded w-fit">✓ STRENGTHS / CORE ALIGNMENT</span>
+              <div id="gap-strong-container" class="space-y-1.5">
+                <!-- tags / items list -->
+              </div>
+            </div>
+
+            <!-- Needs improvement areas -->
+            <div class="space-y-3 pt-2 border-t border-stone-100">
+              <span class="text-[10.5px] font-mono tracking-wider font-bold text-amber-900 block uppercase bg-amber-50 border border-amber-150 px-2.5 py-1 rounded w-fit">⚠ AREAS REQUIRING ATTENTION</span>
+              <div id="gap-improvement-container" class="space-y-1.5">
+                <!-- tags / items list -->
+              </div>
+            </div>
+          </div>
+
+          <!-- AI recommendations & roadmaps output (7 columns) -->
+          <div class="md:col-span-7 rounded-xl border border-stone-300 bg-white p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-stone-150 pb-2.5">
+              <div>
+                <span class="text-[10px] font-mono tracking-wider font-bold text-maroon-800 block">INTELLIGENT RECRUITER ROADMAPS</span>
+                <h3 class="text-lg font-serif font-bold text-stone-900 mt-0.5">AI-Powered Strategic Recommendations</h3>
+              </div>
+              <!-- Trigger calling Gemini dynamically -->
+              <button onclick="fetchGeminiRecommendations()" id="ai-generate-btn" class="bg-stone-900 hover:bg-black text-white font-serif px-3 py-1.5 rounded text-[10px] uppercase font-bold flex items-center gap-1 transition-all active:scale-95">
+                <i data-lucide="sparkles" class="h-3 w-3 text-amber-400"></i> Generate strategic roadmap
+              </button>
+            </div>
+
+            <!-- Recommendations Loader or Content tray -->
+            <div id="ai-recommendations-loader" style="display: none;" class="flex flex-col items-center justify-center py-12 text-center space-y-3">
+              <svg class="animate-spin h-8 w-8 text-maroon-800" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <p class="text-xs text-stone-500 font-serif">Consulting Google Gemini models for customized certifications, roadmaps, and prep schedules...</p>
+            </div>
+
+            <div id="ai-recommendations-content" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+              <!-- Populated after predicting or calling /api/ai-recommendations -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PAGE C: HISTORY ARCHIVE -->
+      <div id="page-history" class="hidden space-y-8 animate-fade-in">
+        {% include "history.html" %}
+      </div>
+
+      <!-- PAGE D: LEADERBOARD -->
+      <div id="page-leaderboard" class="hidden space-y-8 animate-fade-in">
+        <div class="text-center max-w-lg mx-auto space-y-3">
+          <span class="text-xs font-bold font-mono tracking-widest text-maroon-800 uppercase bg-maroon-50 border border-maroon-150 px-3 py-1.5 rounded">
+            Scoreboard of metrics
+          </span>
+          <h2 class="text-2xl font-serif font-bold text-stone-950">Student Career Readiness Leaderboard</h2>
+          <p class="text-stone-500 text-sm">Sort candidates according to baseline calculated Career Readiness Indices.</p>
+        </div>
+
+        <div class="mx-auto max-w-4xl bg-white border border-stone-300 rounded-xl overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm font-sans border-collapse">
+              <thead>
+                <tr class="bg-maroon-800 text-[#FFFDFB] text-[10px] font-mono uppercase tracking-wider">
+                  <th class="p-4 text-center w-16">Rank</th>
+                  <th class="p-4">Candidate References</th>
+                  <th class="p-4">Branch</th>
+                  <th class="p-4 text-center">CGPA</th>
+                  <th class="p-4 text-center">Placement Chance</th>
+                  <th class="p-4 text-right pr-6">Readiness score</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-rows">
+                <!-- Dynamically loaded -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-stone-300 bg-[#FFF8F0] py-12 mt-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-stone-200">
+          
+          <div class="flex items-center gap-2.5">
+            <div class="flex h-8 w-8 items-center justify-center rounded bg-maroon-800 text-white">
+              <i data-lucide="graduation-cap" class="h-4.5 w-4.5"></i>
+            </div>
+            <div>
+              <span class="text-sm font-serif font-bold text-stone-900">
+                Placement<span class="text-maroon-800">Intelligence</span>
+              </span>
+              <span class="block text-[8.5px] font-mono tracking-widest text-stone-500 uppercase">official evaluation portal system</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-4 text-stone-600 text-xs font-bold uppercase tracking-wider">
+            <button onclick="showPage('home')" class="hover:text-maroon-800">Assessment Form</button>
+            <button onclick="showPage('history')" class="hover:text-maroon-800">Prediction History</button>
+            <button onclick="showPage('leaderboard')" class="hover:text-maroon-800">Top Scores</button>
+          </div>
+
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[10.5px] font-mono text-stone-500">
+          <div>
+            <span>© 2026 Office of Career Services & Institutional Placement Cells. All rights reserved.</span>
+          </div>
+          <div>
+            <span>Verified System Reference: IIT-STNF-MIT-CAREERS</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Vanilla JavaScript core logic -->
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>

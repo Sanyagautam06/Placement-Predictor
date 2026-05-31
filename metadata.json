@@ -1,0 +1,6 @@
+{
+  "name": "Placement Predictor",
+  "description": "An AI-powered career intelligence platform that predicts placement readiness, analyzes student skills, and provides personalized strategic insights to boost career success.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

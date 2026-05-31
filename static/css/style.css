@@ -1,0 +1,52 @@
+/* Academic Portal Style definitions */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+body {
+  background-color: #FFF8F0;
+  color: #1A202C;
+  font-family: "Source Sans Pro", "Inter", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hover scales for rating stars button matrices */
+.star-btn {
+  transition: all 0.15s ease-out;
+}
+.star-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Custom fade-in for page transitions and loaded card state results */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-75 { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Dynamic Circular Gauges progress animations standard fill */
+@keyframes progressDial {
+  from {
+    stroke-dashoffset: 490;
+  }
+}
+
+.stroke-fill {
+  animation: progressDial 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}

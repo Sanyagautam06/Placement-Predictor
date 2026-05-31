@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "python3 app.py > startup.log 2>&1",
+    "dev": "(python3 -m pip install --break-system-packages -r requirements.txt && python3 app.py) > startup.log 2>&1",
     "build": "echo 'No build phase needed'",
-    "start": "python3 app.py",
+    "start": "pip3 install --break-system-packages -r requirements.txt && python3 app.py",
     "lint": "echo 'No lint check needed'"
   }
 }

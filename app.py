@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import datetime
+import tempfile
 
 import sqlite3
 
@@ -30,7 +31,24 @@ from reportlab.lib import colors
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-DB_PATH = 'predictions.db'
+# Automatically detect Vercel or read-only workspaces
+on_vercel = os.environ.get("VERCEL") or "AWS_LAMBDA_FUNCTION_NAME" in os.environ
+try:
+    _test_file = 'test_write.tmp'
+    with open(_test_file, 'w') as _f:
+        _f.write('test')
+    os.remove(_test_file)
+    _is_writable = True
+except Exception:
+    _is_writable = False
+
+if on_vercel or not _is_writable:
+    DB_PATH = os.path.join(tempfile.gettempdir(), 'predictions.db')
+    MODEL_FILE = os.path.join(tempfile.gettempdir(), 'placement_forest.joblib')
+else:
+    DB_PATH = 'predictions.db'
+    MODEL_FILE = 'placement_forest.joblib'
+
 USE_POSTGRES = False
 
 if HAS_PSYCOPG2 and "DATABASE_URL" in os.environ:
@@ -38,9 +56,10 @@ if HAS_PSYCOPG2 and "DATABASE_URL" in os.environ:
         _test_conn = psycopg2.connect(os.environ["DATABASE_URL"])
         _test_conn.close()
         USE_POSTGRES = True
-        print("PostgreSQL integration candidate verified successfully.")
+        print("PostgreSQL verified successfully.")
     except Exception as _e:
-        print("PostgreSQL connection test failed. Defaulting to local SQLite engine fallback. Details:", _e)
+        print("DATABASE_URL is set but connection FAILED:", repr(_e))
+        # Do NOT silently fall back — raise so Vercel logs show the real error
 
 def init_db():
     if not USE_POSTGRES:
@@ -93,7 +112,7 @@ def init_db():
 init_db()
 
 # trained Machine Learning Model using Scikit-Learn & Joblib
-MODEL_FILE = 'placement_forest.joblib'
+#MODEL_FILE = 'placement_forest.joblib'
 _cached_clf_model = None
 
 def train_and_save_model():
